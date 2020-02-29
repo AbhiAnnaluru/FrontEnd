@@ -1,0 +1,53 @@
+// const [data, setData] = useState(0);
+   // useEffect(async () => {
+   //   const result = await axios(
+   //     'https://jsonplaceholder.typicode.com/posts',
+   //   );
+   //   setData(result.data);
+   // }, []);
+   // return (
+   //    <ul>
+   //    {data.map(item => (
+   //      <li key={item.id}>
+   //        <a href={item.id}>{item.body}</a>
+   //      </li>
+   //    ))}
+   //  </ul>
+   // );
+
+   // useEffect(async () => {
+   //   const result = await axios(
+   //     'https://jsonplaceholder.typicode.com/posts',
+   //   );
+   //   const [data, setData] = useState({result.data});
+   // //   setData(result.data);
+   // }, []);
+   // return (
+   //    <ul>
+   //    {data.map(item => (
+   //      <li key={item.id}>
+   //        <a href={item.id}>{item.body}</a>
+   //      </li>
+   //    ))}
+   //  </ul>
+   // );
+
+
+   LATEST
+
+   // const [data, setData] = useState({ myd: [] });
+   // useEffect(async () => {
+   //   const result = await axios(
+   //     'https://jsonplaceholder.typicode.com/posts/1/comments',
+   //   );
+   //   setData(result);
+   // }, []);
+   // return (
+   //   <ul>
+   //     {data.myd.map(item => (
+   //       <li key={item.id}>
+   //          <a href={item.id}>{item.body}</a>
+   //       </li>
+   //     ))}
+   //   </ul>
+   // );

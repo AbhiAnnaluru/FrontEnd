@@ -1,0 +1,45 @@
+import React,  { useState, useEffect } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TablePagination from '@material-ui/core/TablePagination';
+import TableRow from '@material-ui/core/TableRow';
+import axios from 'axios';
+
+
+function App() {
+   const [books, setBooks] = useState({me:[]});
+
+   const apiURL = "https://jsonplaceholder.typicode.com/posts/1/comments";
+   const fetchData = async () => {
+       const response = await axios.get(apiURL)
+
+       setBooks(response.data) 
+       alert(response.data);
+   }
+
+ 
+   return (
+     <div className="App">
+        <h1>{books.me.id} Manish</h1>
+         {books.me.map(book => {
+             return (
+               <div className="book">
+                 <h2>{book.body}</h2>
+ 
+                 <div className="details">
+                   <p>sd: {book.body} pages</p>
+                   <p>er: {book.id}</p>
+                 </div>
+               </div>
+             );
+           })}
+     </div>
+   );
+ }
+
+ export default App
