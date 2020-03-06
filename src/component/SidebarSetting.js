@@ -1,14 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import Sidebar from './Sidebar';
+import ContentPs from './ContentPs';
+import SideNavBar from './SideNavBar';
+import Search from './Search';
+import Calendar from './Calendar';
+import Download from './Download';
+import Update from './Update';
 import Grid from '@material-ui/core/Grid';
-import SidebarSetting from './SidebarSetting';
+import ContentRole from './ContentRole';
+import ContentUser from './ContentUser';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -18,8 +23,8 @@ function TabPanel(props) {
       component="div"
       role="tabpanel"
       hidden={value !== index}
-      id={`nav-tabpanel-${index}`}
-      aria-labelledby={`nav-tab-${index}`}
+      id={`vertical-tabpanel-${index}`}
+      aria-labelledby={`vertical-tab-${index}`}
       {...other}
     >
       {value === index && <Box p={3}>{children}</Box>}
@@ -35,31 +40,26 @@ TabPanel.propTypes = {
 
 function a11yProps(index) {
   return {
-    id: `nav-tab-${index}`,
-    'aria-controls': `nav-tabpanel-${index}`,
+    id: `vertical-tab-${index}`,
+    'aria-controls': `vertical-tabpanel-${index}`,
   };
-}
-
-function LinkTab(props) {
-  return (
-    <Tab
-      component="a"
-      onClick={event => {
-        event.preventDefault();
-      }}
-      {...props}
-    />
-  );
 }
 
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
+    display: 'flex',
+    height: 'auto',
+    width: 'auto'
+  },
+  tabs: {
+    borderRight: `1px solid ${theme.palette.divider}`,
+    width:200
   },
 }));
 
-export default function NavTabs() {
+export default function VerticalTabs() {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
@@ -69,36 +69,28 @@ export default function NavTabs() {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
-        <Tabs
-          variant="fullWidth"
-          value={value}
-          onChange={handleChange}
-          aria-label="nav tabs example"
-        >
-          <LinkTab label="CACM" href="/drafts" {...a11yProps(0)} />
-          <LinkTab label="ECA" href="/trash" {...a11yProps(1)} />
-          <LinkTab label="Ticker Management" href="/spam" {...a11yProps(2)} />
-          <LinkTab label="User Setting" href="/drafts" {...a11yProps(3)} />
-          <LinkTab label="Logout" href="/drafts" {...a11yProps(4)} />
-        </Tabs>
-      </AppBar>
+      <Tabs
+        orientation="vertical"
+        variant="scrollable"
+        value={value}
+        onChange={handleChange}
+        aria-label="Vertical tabs example"
+        className={classes.tabs}
+      >
+        <Tab label="Permissions" {...a11yProps(0)}/>
+        <Tab label="Roles" {...a11yProps(1)} />
+        <Tab label="Users" {...a11yProps(2)} />
+      </Tabs>
       <TabPanel value={value} index={0}>
-      <Grid xs={12}>
-        <Sidebar />
+      <Grid container  xs={12}>
+         <ContentPs/>
       </Grid>
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <Sidebar />
+        <ContentRole/>
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <Sidebar />
-      </TabPanel>
-      <TabPanel value={value} index={3}>
-        <SidebarSetting />
-      </TabPanel>
-      <TabPanel value={value} index={4}>
-        <Sidebar />
+        <ContentUser/>
       </TabPanel>
     </div>
   );

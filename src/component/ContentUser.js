@@ -2,7 +2,7 @@ import React from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-import DataTable from './DataTable';
+import DataUser from './DataUser';
 
 export default function Content() {
   return (
@@ -10,7 +10,7 @@ export default function Content() {
       <CssBaseline />
       <Container maxWidth="l">
         <Typography component="div" style={{ padding: 12}} >
-           <DataTable />
+           <DataUser/>
         </Typography>
       </Container>
     </React.Fragment>
