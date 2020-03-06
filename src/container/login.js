@@ -12,6 +12,9 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import axios from 'axios';
+import  { Redirect } from 'react-router-dom'
+import { findAllInRenderedTree } from 'react-dom/test-utils';
 
 function Copyright() {
   return (
@@ -46,14 +49,29 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function SignIn() {
-  const classes = useStyles();
+const SignIn = props => {
+  const formsubmit = () => {
+    axios.post('http://104.130.29.253:8050/api/token/', JSON.stringify({
+      username: 'ashish',
+      password: '1234',
+      headers: {
+        'Content-Type': 'multipart/form-data'}
+      })).then(result => {
+          alert(JSON.stringify(result.data));
+          localStorage.setItem('access', result.data.access);
+          localStorage.setItem('refresh', result.data.refresh);
+          props.history.push("/home");
+  }).catch(e => {
+    props.history.push("/home");
+  });
+  props.history.push("/home");
+  }
 
+  const classes = useStyles();
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
@@ -90,6 +108,7 @@ export default function SignIn() {
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={formsubmit}
           >
             Sign In
           </Button>
@@ -113,3 +132,4 @@ export default function SignIn() {
     </Container>
   );
 }
+export default  SignIn

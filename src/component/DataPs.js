@@ -94,31 +94,31 @@ export default function MaterialTableDemo() {
     }
     },[]);
 
-  function updateData(newData){
-    axios.put('http://104.130.29.253:8050/dividend/'+newData.cacm_id+'/', {
-                isin:newData.isin,
-                security_name:newData.security_name,})
-        .then(res => {
-          axios.get('http://104.130.29.253:8050/dividend/')
-          .then(result=> {
-            const res = result.data;
-            const resultData = [];
-            var type = null;
-            for(const key in res){
-              if(res[key].edi_ca_type=='ORD_DIV'){
-                type = 'ORDINARY'
-              }else{
-                type = 'SPECIAL'
-              }
-              resultData.push({
-                                isin:res[key].isin,
-                                security_name:res[key].security_name
-                });
-            }
-            setData(resultData);
-          });
-        });
-    }
+  // function updateData(newData){
+  //   axios.put('http://104.130.29.253:8050/dividend/'+newData.cacm_id+'/', {
+  //               isin:newData.isin,
+  //               security_name:newData.security_name,})
+  //       .then(res => {
+  //         axios.get('http://104.130.29.253:8050/dividend/')
+  //         .then(result=> {
+  //           const res = result.data;
+  //           const resultData = [];
+  //           var type = null;
+  //           for(const key in res){
+  //             if(res[key].edi_ca_type=='ORD_DIV'){
+  //               type = 'ORDINARY'
+  //             }else{
+  //               type = 'SPECIAL'
+  //             }
+  //             resultData.push({
+  //                               isin:res[key].isin,
+  //                               security_name:res[key].security_name
+  //               });
+  //           }
+  //           setData(resultData);
+  //         });
+  //       });
+  //   }
    function Rowadd(newData){
       axios.post('http://104.130.29.253:8050/dividend/', {
                 isin:newData.isin,

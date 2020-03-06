@@ -1,18 +1,39 @@
-import React from 'react';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
-import DataRole from './DataRole';
 
-export default function Content() {
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
+import DataRole from './DataRole';
+import RoleSetting from './RoleSetting';
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    flexGrow: 1,
+  },
+  paper: {
+    padding: theme.spacing(2),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+  },
+}));
+
+export default function FullWidthGrid() {
+  const classes = useStyles();
+
   return (
-    <React.Fragment>
-      <CssBaseline />
-      <Container maxWidth="l">
-        <Typography component="div" style={{ padding: 12}} >
-           <DataRole/>
-        </Typography>
-      </Container>
-    </React.Fragment>
+    <div className={classes.root}>
+      <Grid container spacing={3}>
+        <Grid item xs={12} sm={6}>
+          <Paper className={classes.paper}>
+            <DataRole/>
+          </Paper>
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <Paper className={classes.paper}>
+            <RoleSetting/>
+          </Paper>
+        </Grid>
+      </Grid>
+    </div>
   );
 }
