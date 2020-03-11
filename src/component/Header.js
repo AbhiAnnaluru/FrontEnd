@@ -10,6 +10,7 @@ import Sidebar from './Sidebar';
 import Grid from '@material-ui/core/Grid';
 import SidebarSetting from './SidebarSetting';
 
+
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
@@ -81,25 +82,29 @@ const NavTabs = props => {
           onChange={handleChange}
           aria-label="nav tabs example"
         >
-          <LinkTab label="CACM" href="/drafts" {...a11yProps(0)} />
-          <LinkTab label="ECA" href="/trash" {...a11yProps(1)} />
-          <LinkTab label="Ticker Management" href="/spam" {...a11yProps(2)} />
-          <LinkTab label="User Setting" href="/drafts" {...a11yProps(3)} />
-          <LinkTab label="Logout" href="/drafts" {...a11yProps(4)} />
+          <LinkTab label="Module 1" href="/drafts" {...a11yProps(0)} />
+          <LinkTab label="CACM" href="/drafts" {...a11yProps(1)} />
+          <LinkTab label="ECA" href="/trash" {...a11yProps(2)} />
+          <LinkTab label="Ticker Management" href="/spam" {...a11yProps(3)} />
+          <LinkTab label="User Setting" href="/drafts" {...a11yProps(4)} />
+          <LinkTab label="Logout" href="/drafts" {...a11yProps(5)} />
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
+        
+      </TabPanel>
+      <TabPanel value={value} index={1}>
       <Grid xs={12}>
         <Sidebar />
       </Grid>
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        <Sidebar />
       </TabPanel>
       <TabPanel value={value} index={2}>
         <Sidebar />
       </TabPanel>
       <TabPanel value={value} index={3}>
+        <Sidebar />
+      </TabPanel>
+      <TabPanel value={value} index={4}>
         <SidebarSetting />
       </TabPanel>
     </div>

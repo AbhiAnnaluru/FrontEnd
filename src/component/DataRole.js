@@ -164,32 +164,6 @@ export default function MaterialTableDemo() {
         }
       }}
       editable={{
-      //   onRowUpdate: (newData, oldData) =>
-      //     new Promise(resolve => {
-      //       setTimeout(() => {
-      //         resolve();
-      //         if (oldData) {
-      //           setState(prevState => {
-      //             const data = [newData.data];
-      //             updateData(newData);
-      //             data[data.indexOf(oldData)] = newData;
-      //             return { ...prevState, data };
-      //           });
-      //         }
-      //       }, 600);
-      //     }),
-      // onRowAdd: newData =>
-      //     new Promise(resolve => {
-      //       setTimeout(() => {
-      //         resolve();
-      //         setState(prevState => {
-      //           const data = [newData.data];
-      //           data.push(newData);
-      //           Rowadd(newData);
-      //           return { ...prevState, data };
-      //         });
-      //       }, 600);
-      //     }),
          onRowDelete: oldData =>
             new Promise(resolve => {
              setTimeout(() => {

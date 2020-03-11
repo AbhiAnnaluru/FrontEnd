@@ -1,130 +1,205 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import React, {useState, useEffect}  from 'react';
+import Grid from '@material-ui/core/Grid';
+import './Table.css'
 import Paper from '@material-ui/core/Paper';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TablePagination from '@material-ui/core/TablePagination';
-import TableRow from '@material-ui/core/TableRow';
+import { makeStyles } from '@material-ui/core/styles';
+import axios from 'axios';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
-const columns = [
-  { id: 'name', label: 'Name', minWidth: 170 },
-  { id: 'code', label: 'ISO\u00a0Code', minWidth: 100 },
-  {
-    id: 'population',
-    label: 'Population',
-    minWidth: 170,
-    align: 'right',
-    format: value => value.toLocaleString(),
-  },
-  {
-    id: 'size',
-    label: 'Size\u00a0(km\u00b2)',
-    minWidth: 170,
-    align: 'right',
-    format: value => value.toLocaleString(),
-  },
-  {
-    id: 'density',
-    label: 'Density',
-    minWidth: 170,
-    align: 'right',
-    format: value => value.toFixed(2),
-  },
-];
 
-function createData(name, code, population, size) {
-  const density = population / size;
-  return { name, code, population, size, density };
-}
-
-const rows = [
-  createData('India', 'IN', 1324171354, 3287263),
-  createData('China', 'CN', 1403500365, 9596961),
-  createData('Italy', 'IT', 60483973, 301340),
-  createData('United States', 'US', 327167434, 9833520),
-  createData('Canada', 'CA', 37602103, 9984670),
-  createData('Australia', 'AU', 25475400, 7692024),
-  createData('Germany', 'DE', 83019200, 357578),
-  createData('Ireland', 'IE', 4857000, 70273),
-  createData('Mexico', 'MX', 126577691, 1972550),
-  createData('Japan', 'JP', 126317000, 377973),
-  createData('France', 'FR', 67022000, 640679),
-  createData('United Kingdom', 'GB', 67545757, 242495),
-  createData('Russia', 'RU', 146793744, 17098246),
-  createData('Nigeria', 'NG', 200962417, 923768),
-  createData('Brazil', 'BR', 210147125, 8515767),
-];
-
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   root: {
-    width: '100%',
+    flexGrow: 1,
   },
-  container: {
-    maxHeight: 440,
+  paper: {
+    padding: theme.spacing(2),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
   },
-});
+}));
 
-export default function Table() {
+export default function MaterialTableDemo() {
+
+
+  const [state, setState] = React.useState({
+    columns: [
+      { title: 'Security_Name', field: 'security_name', editable: 'never'},
+    ],
+  });
+
   const classes = useStyles();
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
+  useEffect(() => {
+    setLoading(true);
+      axios.get('http://104.130.29.253:8050/dividend/')
+      .then(result=> {
+        const res = result.data;
+        const permssionData = [];
+        var type = null;
+        for(const key in res){
+          permssionData.push({
+                            security_name:res[key].security_name
+            });
+        }
+        setData(permssionData);
+        setLoading(false);
+      }); 
+    },[]);
 
-  const handleChangeRowsPerPage = event => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
+  const tab1_To_tab2 = () =>
+  {
+      
+      var table1 = document.getElementById("table1"),
+          table2 = document.getElementById("table2"),
+          checkboxes = document.getElementsByName("check-tab1");
+  console.log("Val1 = " + checkboxes.length);
+       for(var i = 0; i < checkboxes.length; i++)
+           if(checkboxes[i].checked)
+              {
+                  // create new row and cells
+                  var newRow = table2.insertRow(table2.length),
+                      cell1 = newRow.insertCell(0),
+                      cell2 = newRow.insertCell(1);
+                    //   cell3 = newRow.insertCell(2),
+                    //   cell4 = newRow.insertCell(3);
+                  // add values to the cells
+                  cell1.innerHTML = table1.rows[i+1].cells[0].innerHTML;
+                  cell2.innerHTML = "<input type='checkbox' name='check-tab2'>";
+                //   cell3.innerHTML = table1.rows[i+1].cells[2].innerHTML;
+                //   cell4.innerHTML = "<input type='checkbox' name='check-tab2'>";
+                 
+                  // remove the transfered rows from the first table [table1]
+                  var index = table1.rows[i+1].rowIndex;
+                  table1.deleteRow(index);
+                  // we have deleted some rows so the checkboxes.length have changed
+                  // so we have to decrement the value of i
+                  i--;
+                 console.log(checkboxes.length);
+              }
+  }
+  
+  
+  const tab2_To_tab1 = () =>
+  {
+    
+      var table1 = document.getElementById("table1"),
+          table2 = document.getElementById("table2"),
+          checkboxes = document.getElementsByName("check-tab2");
+  console.log("Val1 = " + checkboxes.length);
+       for(var i = 0; i < checkboxes.length; i++)
+           if(checkboxes[i].checked)
+              {
+                  // create new row and cells
+                  var newRow = table1.insertRow(table1.length),
+                      cell1 = newRow.insertCell(0),
+                      cell2 = newRow.insertCell(1);
+                    //   cell3 = newRow.insertCell(2),
+                    //   cell4 = newRow.insertCell(3);
+                  // add values to the cells
+                  cell1.innerHTML = table2.rows[i+1].cells[0].innerHTML;
+                  cell2.innerHTML = "<input type='checkbox' name='check-tab1'>";
+                //   cell3.innerHTML = table2.rows[i+1].cells[2].innerHTML;
+                //   cell4.innerHTML = "<input type='checkbox' name='check-tab1'>";
+                 
+                  // remove the transfered rows from the second table [table2]
+                  var index = table2.rows[i+1].rowIndex;
+                  table2.deleteRow(index);
+                  // we have deleted some rows so the checkboxes.length have changed
+                  // so we have to decrement the value of i
+                  i--;
+                 console.log(checkboxes.length);
+              }
+  }
+      return (
+        loading ? (<center><CircularProgress size={50} /></center>) : (
+          <div className="container" data-component="TableShift">
 
-  return (
-    <Paper className={classes.root}>
-      <TableContainer className={classes.container}>
-        <Table stickyHeader aria-label="sticky table">
-          <TableHead>
-            <TableRow>
-              {columns.map(column => (
-                <TableCell
-                  key={column.id}
-                  align={column.align}
-                  style={{ minWidth: column.minWidth }}
-                >
-                  {column.label}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
-              return (
-                <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                  {columns.map(column => {
-                    const value = row[column.id];
-                    return (
-                      <TableCell key={column.id} align={column.align}>
-                        {column.format && typeof value === 'number' ? column.format(value) : value}
-                      </TableCell>
-                    );
-                  })}
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
-        component="div"
-        count={rows.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onChangePage={handleChangePage}
-        onChangeRowsPerPage={handleChangeRowsPerPage}
-      />
-    </Paper>
+          <Grid container spacing={1}>
+            <Grid container item xs={12} spacing={3}>
+              <Grid item xs={4}>
+              
+              <div className="tab">
+                <table id="table1" border="1">
+                    <tr>
+                        <th>Permission Name</th>
+                        <th>Select</th>
+                    </tr>
+                    {/* {data.map((security_name) => (
+                      <tr>
+                      <td>{security_name}</td>
+                      </tr>
+                      // <td><input type="checkbox" name="check-tab1"/></td>
+                    ))} */}
+                     <tr>
+                        <td>A1</td>
+                        <td><input type="checkbox" name="check-tab1"/></td>
+                    </tr>
+                    {/* <tr>
+                        <td>A2</td>
+                        <td><input type="checkbox" name="check-tab1"/></td>
+                    </tr>
+                    <tr>
+                        <td>A3</td>
+                        <td><input type="checkbox" name="check-tab1"/></td>
+                    </tr>
+                     <tr>
+                        <td>A4</td>
+                        <td><input type="checkbox" name="check-tab1"/></td>
+                    </tr>
+                     <tr>
+                        <td>A5</td>
+                        <td><input type="checkbox" name="check-tab1"/></td>
+                    </tr>
+                     <tr>
+                        <td>A6</td>
+                        <td><input type="checkbox" name="check-tab1"/></td>
+                    </tr>
+                     <tr>
+                        <td>A7</td>
+                        <td><input type="checkbox" name="check-tab1"/></td>
+                    </tr>
+                     <tr>
+                        <td>A8</td>
+                        <td><input type="checkbox" name="check-tab1"/></td>
+                    </tr>
+                     <tr>
+                        <td>A9</td>
+                        <td><input type="checkbox" name="check-tab1"/></td>
+                    </tr>
+                     <tr>
+                        <td>A10</td>
+                        <td><input type="checkbox" name="check-tab1"/></td>
+                    </tr> */}
+                </table>
+            </div>
+              
+          </Grid>
+          <Grid item xs={4}>
+              
+              <div className="tab tab-btn">
+                <button onClick={tab1_To_tab2}>Tab1 to Tab2</button>
+                <button onClick={tab2_To_tab1}>Tab2 to Tab1</button>
+              </div>
+              
+          </Grid>
+          <Grid item xs={4}>
+              
+              <div className="tab">
+                <table id="table2" border="1">
+                    <tr>
+                        <th>Permission Name</th>
+                        <th>Select</th>
+                    </tr>
+                </table>   
+            </div>    
+              
+          </Grid>
+        </Grid>
+        </Grid>
+        </div>
+        )
   );
 }
+

@@ -14,7 +14,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import UpIcon from '@material-ui/icons/KeyboardArrowUp';
 import { green } from '@material-ui/core/colors';
 import Box from '@material-ui/core/Box';
-import AddRole from './AddRole';
+import AddUser from './AddUser';
 import Table from './Table';
 
 function TabPanel(props) {
@@ -115,8 +115,8 @@ export default function FloatingActionButtonZoom() {
           variant="fullWidth"
           aria-label="action tabs example"
         >
-          <Tab label="Add New Role" {...a11yProps(0)} />
-          <Tab label="Modify Role" {...a11yProps(1)} />
+          <Tab label="Add New User" {...a11yProps(0)} />
+          <Tab label="Modify User" {...a11yProps(1)} />
         </Tabs>
       </AppBar>
       <SwipeableViews
@@ -125,7 +125,7 @@ export default function FloatingActionButtonZoom() {
         onChangeIndex={handleChangeIndex}
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
-          <AddRole/>
+          <AddUser/>
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
           <Table/>
