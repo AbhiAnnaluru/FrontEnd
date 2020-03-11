@@ -22,8 +22,8 @@ export default function MaterialTableDemo() {
   
   const [state, setState] = React.useState({
     columns: [
-      { title: 'Permission Name', field: 'security_name' },
-      { title: 'Description', field: 'isin' },
+      { title: 'Permission Name', field: 'codename' },
+      { title: 'Description', field: 'name' },
     ],
   });
 
@@ -57,35 +57,29 @@ export default function MaterialTableDemo() {
         localStorage.setItem('allData', JSON.stringify(res));
         const resultData = [];
         var type = null;
+        var content_type = 1;
         for(const key in res){
-          if(res[key].edi_ca_type=='ORD_DIV'){
-            type = 'ORDINARY'
-          }else{
-            type = 'SPECIAL'
-          }
           resultData.push({
-                            isin:res[key].isin,
-                            security_name:res[key].security_name,
+                            name:res[key].name,
+                            codename:res[key].codename,
+                            content_type:res[key].content_type,
             });
         }
         setData(resultData);
         setLoading(false);
     }else{
-      axios.get('http://104.130.29.253:8050/dividend/')
+      axios.get('http://104.130.29.253:8050/add_permission/')
       .then(result=> {
         const res = result.data;
         localStorage.setItem('allData', JSON.stringify(res));
         const resultData = [];
         var type = null;
+        var content_type = 1;
         for(const key in res){
-          if(res[key].edi_ca_type=='ORD_DIV'){
-            type = 'ORDINARY'
-          }else{
-            type = 'SPECIAL'
-          }
           resultData.push({
-                            isin:res[key].isin,
-                            security_name:res[key].security_name
+                            name:res[key].name,
+                            codename:res[key].codename,
+                            content_type:res[key].content_type,
             });
         }
         setData(resultData);
@@ -94,50 +88,22 @@ export default function MaterialTableDemo() {
     }
     },[]);
 
-  // function updateData(newData){
-  //   axios.put('http://104.130.29.253:8050/dividend/'+newData.cacm_id+'/', {
-  //               isin:newData.isin,
-  //               security_name:newData.security_name,})
-  //       .then(res => {
-  //         axios.get('http://104.130.29.253:8050/dividend/')
-  //         .then(result=> {
-  //           const res = result.data;
-  //           const resultData = [];
-  //           var type = null;
-  //           for(const key in res){
-  //             if(res[key].edi_ca_type=='ORD_DIV'){
-  //               type = 'ORDINARY'
-  //             }else{
-  //               type = 'SPECIAL'
-  //             }
-  //             resultData.push({
-  //                               isin:res[key].isin,
-  //                               security_name:res[key].security_name
-  //               });
-  //           }
-  //           setData(resultData);
-  //         });
-  //       });
-  //   }
    function Rowadd(newData){
-      axios.post('http://104.130.29.253:8050/dividend/', {
-                isin:newData.isin,
-                security_name:newData.security_name,})
+      axios.post('http://104.130.29.253:8050/add_permission/', {
+                name:newData.name,
+                codename:newData.codename,
+                content_type:1,})
         .then(res => {
-         axios.get('http://104.130.29.253:8050/dividend/')
+         axios.get('http://104.130.29.253:8050/add_permission/')
          .then(result=> {
            const res = result.data;
            const resultData = [];
            var type = null;
+           var content_type = 1;
            for(const key in res){
-             if(res[key].edi_ca_type=='ORD_DIV'){
-               type = 'ORDINARY'
-             }else{
-               type = 'SPECIAL'
-             }
              resultData.push({
-                               isin:res[key].isin,
-                               security_name:res[key].security_name
+                               name:res[key].name,
+                               codename:res[key].codename
                });
            }
            setData(resultData);
@@ -164,20 +130,6 @@ export default function MaterialTableDemo() {
         }
       }}
       editable={{
-      //   onRowUpdate: (newData, oldData) =>
-      //     new Promise(resolve => {
-      //       setTimeout(() => {
-      //         resolve();
-      //         if (oldData) {
-      //           setState(prevState => {
-      //             const data = [newData.data];
-      //             updateData(newData);
-      //             data[data.indexOf(oldData)] = newData;
-      //             return { ...prevState, data };
-      //           });
-      //         }
-      //       }, 600);
-      //     }),
       onRowAdd: newData =>
           new Promise(resolve => {
             setTimeout(() => {
@@ -190,6 +142,19 @@ export default function MaterialTableDemo() {
               });
             }, 600);
           }),
+      onRowUpdate: (newData, oldData) =>
+          new Promise(resolve => {
+            setTimeout(() => {
+              resolve();
+              if (oldData) {
+                setState(prevState => {
+                  const data = [...prevState.data];
+                  data[data.indexOf(oldData)] = newData;
+                  return { ...prevState, data };
+                });
+              }
+            }, 600);
+          }),    
       }}
     />
       )

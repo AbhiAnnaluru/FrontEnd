@@ -126,12 +126,12 @@ export default function MaterialTableDemo() {
                         <th>Permission Name</th>
                         <th>Select</th>
                     </tr>
-                    {/* {data.map((security_name) => (
+                    {data.map((security_name) => (
                       <tr>
-                      <td>{security_name}</td>
+                      <td>{security_name.name}</td>
+                      <td><input type="checkbox" name="check-tab1"/></td>
                       </tr>
-                      // <td><input type="checkbox" name="check-tab1"/></td>
-                    ))} */}
+                    ))}
                      <tr>
                         <td>A1</td>
                         <td><input type="checkbox" name="check-tab1"/></td>
