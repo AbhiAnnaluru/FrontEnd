@@ -14,6 +14,7 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(2),
     textAlign: 'center',
     color: theme.palette.text.secondary,
+    maxWidth:'100'
   },
 }));
 
@@ -24,9 +25,7 @@ export default function FullWidthGrid() {
     <div className={classes.root}>
       <Grid container spacing={3}>
         <Grid item xs={12} sm={6}>
-          <Paper className={classes.paper}>
             <DataUser/>
-          </Paper>
         </Grid>
         <Grid item xs={12} sm={6}>
           <Paper className={classes.paper}>

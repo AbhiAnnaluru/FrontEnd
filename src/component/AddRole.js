@@ -26,7 +26,6 @@ export default function BasicTextFields() {
   });
 
 
-  
 
   const [formData, updateFormData] = React.useState(initialFormData);
 
@@ -44,11 +43,13 @@ export default function BasicTextFields() {
   const handleSubmit = (e) => {
     // e.preventDefault()
     // console.log(formData);
-    //  alert(JSON.stringify(formData.description));
+     alert(JSON.stringify(formData.description));
     // ... submit to API or something
+
     axios.post('http://104.130.29.253:8050/add_role/', {
                 name:formData.name,
-                description:formData.description,})
+                description:formData.description,
+                })
         .then(res => {
          axios.get('http://104.130.29.253:8050/add_role/')
          .then(result=> {

@@ -99,7 +99,6 @@ export default function MaterialTableDemo() {
            const res = result.data;
            const resultData = [];
            var type = null;
-           var content_type = 1;
            for(const key in res){
              resultData.push({
                                name:res[key].name,
@@ -110,6 +109,27 @@ export default function MaterialTableDemo() {
          });
         });
    } 
+
+   function updateData(newData){
+    axios.put('http://104.130.29.253:8050/add_permission/'+newData.name+'/', {
+                name:newData.name,
+                codename:newData.codename,
+                })
+        .then(res => {
+          axios.get('http://104.130.29.253:8050/add_permission/')
+          .then(result=> {
+            const res = result.data;
+            const resultData = [];
+            var type = null;
+            for(const key in res){
+              resultData.push({ name:res[key].name,
+                                codename:res[key].codename
+                });
+            }
+            setData(resultData);
+          });
+        });
+    }
   return (
     <div>
     {
@@ -148,13 +168,14 @@ export default function MaterialTableDemo() {
               resolve();
               if (oldData) {
                 setState(prevState => {
-                  const data = [...prevState.data];
+                  const data = [newData.data];
+                  updateData(newData);
                   data[data.indexOf(oldData)] = newData;
                   return { ...prevState, data };
                 });
               }
             }, 600);
-          }),    
+          }),
       }}
     />
       )

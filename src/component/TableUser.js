@@ -23,7 +23,7 @@ export default function MaterialTableDemo() {
 
   const [state, setState] = React.useState({
     columns: [
-      { title: 'Security_Name', field: 'security_name', editable: 'never'},
+      // { title: 'Security_Name', field: 'security_name', editable: 'never'},
     ],
   });
 
@@ -33,14 +33,14 @@ export default function MaterialTableDemo() {
 
   useEffect(() => {
     setLoading(true);
-      axios.get('http://104.130.29.253:8050/add_permission/')
+      axios.get('http://104.130.29.253:8050/add_role/')
       .then(result=> {
         const res = result.data;
         const resultData = [];
         var type = null;
         for(const key in res){
           resultData.push({
-                            codename:res[key].codename
+                            name:res[key].name
             });
         }
         setData(resultData);
@@ -123,12 +123,12 @@ export default function MaterialTableDemo() {
               <div className="tab">
                 <table id="table1" border="1">
                     <tr>
-                        <th>Permission Name</th>
+                        <th>Role Name</th>
                         <th>Select</th>
                     </tr>
-                    {data.map((codename) => (
+                    {data.map((parameter) => (
                       <tr>
-                      <td>{codename.codename}</td>
+                      <td>{parameter.name}</td>
                       <td><input type="checkbox" name="check-tab1"/></td>
                       </tr>
                     ))}

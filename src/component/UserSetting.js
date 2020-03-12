@@ -15,7 +15,7 @@ import UpIcon from '@material-ui/icons/KeyboardArrowUp';
 import { green } from '@material-ui/core/colors';
 import Box from '@material-ui/core/Box';
 import AddUser from './AddUser';
-import Table from './Table';
+import TableUser from './TableUser';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -128,7 +128,7 @@ export default function FloatingActionButtonZoom() {
           <AddUser/>
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          <Table/>
+          <TableUser/>
         </TabPanel>
       </SwipeableViews>
     </div>
