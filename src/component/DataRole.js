@@ -17,6 +17,8 @@ import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
 import axios from 'axios';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import BasicTextFields from './AddRole';
+import Table from './Table';
 
 export default function MaterialTableDemo() {
   
@@ -24,6 +26,7 @@ export default function MaterialTableDemo() {
     columns: [
       { title: 'Role Name', field: 'name' },
       { title: 'Description', field: 'description' },
+      { title: 'Edit Tab', field: 'modifytab' },
     ],
   });
 
@@ -46,6 +49,10 @@ export default function MaterialTableDemo() {
     ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
     ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
     };
+    const [a, setA] = useState(false);
+  const modifyvalue = () => {
+    setA(true);
+  };
 
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -61,6 +68,9 @@ export default function MaterialTableDemo() {
           resultData.push({
                             name:res[key].name,
                             description:res[key].description,
+                            modifytab:<button onClick={() => modifyvalue()}>
+                              MODIFY
+                            </button>
             });
         }
         setData(resultData);
@@ -75,7 +85,10 @@ export default function MaterialTableDemo() {
         for(const key in res){
           resultData.push({
                             name:res[key].name,
-                            description:res[key].description
+                            description:res[key].description,
+                            modifytab:<button onClick={modifyvalue}>
+                              MODIFY
+                            </button>
             });
         }
         setData(resultData);
@@ -106,7 +119,8 @@ export default function MaterialTableDemo() {
    } 
   return (
     <div>
-    {
+      {
+      a ? (<Table />) : (
       loading ? (<center><CircularProgress size={50} /></center>) : (
     <MaterialTable
       title="Roles Table"
@@ -124,21 +138,35 @@ export default function MaterialTableDemo() {
         }
       }}
       editable={{
-         onRowDelete: oldData =>
-            new Promise(resolve => {
-             setTimeout(() => {
-               resolve();
-               setState(prevState => {
-               const data = [...prevState.data];
-               data.splice(data.indexOf(oldData), 1);
-               return { ...prevState, data };
-             });
-          }, 600);
-         }),
+        onRowAdd: newData =>
+          new Promise(resolve => {
+            setTimeout(() => {
+              resolve();
+              setState(prevState => {
+                const data = [newData.data];
+                data.push(newData);
+                Rowadd(newData);
+                return { ...prevState, data };
+              });
+            }, 600);
+          }),
+        
+        onRowDelete: oldData =>
+           new Promise(resolve => {
+            setTimeout(() => {
+              resolve();
+              setState(prevState => {
+              const data = [...prevState.data];
+              data.splice(data.indexOf(oldData), 1);
+              return { ...prevState, data };
+            });
+         }, 600);
+        }),
       }}
     />
       )
-    }
+    )
+  }
     </div>
   );
 }

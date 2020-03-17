@@ -121,7 +121,7 @@ export default function MaterialTableDemo() {
               <Grid item xs={4}>
               
               <div className="tab">
-                <table id="table1" border="1">
+                <table id="table1" border="1" >
                     <tr>
                         <th>Permission Name</th>
                         <th>Select</th>
