@@ -52,6 +52,19 @@ export default function MaterialTableDemo() {
     const [a, setA] = useState(false);
   const modifyvalue = () => {
     setA(true);
+        axios.get('http://104.130.29.253:8050/add_role/')
+         .then(result=> {
+           const res = result.data;
+           const resultData = [];
+           var type = null;
+           for(const key in res){
+             resultData.push({
+                               id:res[key].id
+               });
+           }
+           setData(resultData);
+           alert(JSON.stringify(resultData));
+         });
   };
 
   const [data, setData] = useState([]);

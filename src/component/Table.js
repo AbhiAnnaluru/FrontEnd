@@ -29,6 +29,7 @@ export default function MaterialTableDemo() {
 
   const classes = useStyles();
   const [data, setData] = useState([]);
+  const [code, setCode] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -47,6 +48,23 @@ export default function MaterialTableDemo() {
         setLoading(false);
       }); 
     },[]);
+
+  useEffect(() => {
+      setLoading(true);
+        axios.get('http://104.130.29.253:8050/role_permission/?required_group=')
+        .then(result=> {
+          const res = result.code;
+          const resultData = [];
+          var type = null;
+          for(const key in res){
+            resultData.push({
+                              codename:res[key].codename
+              });
+          }
+          setCode(resultData);
+          setLoading(false);
+        }); 
+      },[]);  
 
   const tab1_To_tab2 = () =>
   {
@@ -112,6 +130,9 @@ export default function MaterialTableDemo() {
                  console.log(checkboxes.length);
               }
   }
+    const save = () =>{
+       
+    }
       return (
         loading ? (<center><CircularProgress size={50} /></center>) : (
           <div className="container" data-component="TableShift">
@@ -121,9 +142,9 @@ export default function MaterialTableDemo() {
               <Grid item xs={4}>
               
               <div className="tab">
-                <table id="table1" border="1" >
+                <table id="table1" border="1" style={{overflowY: "auto"}} >
                     <tr>
-                        <th>Permission Name</th>
+                        <th>Permission Name</th>     
                         <th>Select</th>
                     </tr>
                     {data.map((codename) => (
@@ -141,6 +162,7 @@ export default function MaterialTableDemo() {
               <div className="tab tab-btn">
                 <button onClick={tab1_To_tab2}>Tab1 to Tab2</button>
                 <button onClick={tab2_To_tab1}>Tab2 to Tab1</button>
+                <button onClick={save}>Save</button>
               </div>
               
           </Grid>
@@ -152,6 +174,12 @@ export default function MaterialTableDemo() {
                         <th>Permission Name</th>
                         <th>Select</th>
                     </tr>
+                    {code.map((codename) => (
+                      <tr>
+                      <td>{codename.codename}</td>
+                      <td><input type="checkbox" name="check-tab2"/></td>
+                      </tr>
+                    ))}  
                 </table>   
             </div>    
               
